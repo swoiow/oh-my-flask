@@ -17,13 +17,11 @@ def _init_gitignore(fp=".gitignore"):
         wf.write(body)
 
 
-@click.command(
-    name="init"
-)
+@click.command(name="init")
 def init_project():
     """ - Set up the project tree. """
     cwd = os.path.abspath(os.getcwd())
-    print(f"Prepare setting up project in: {cwd}")
+    print(f"Doing setup project in folder: {cwd}")
     for folder in static + others:
         if not os.path.exists(folder):
             os.makedirs(folder)
@@ -39,6 +37,8 @@ def init_project():
 
     if ".gitignore" not in os.listdir(cwd):
         _init_gitignore(os.path.join(cwd, ".gitignore"))
+
+    print("Done!")
 
 
 @click.command(
