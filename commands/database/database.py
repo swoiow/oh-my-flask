@@ -19,14 +19,24 @@ def _check_dependencies():
 
 
 def _create_models():
-    from . import models_example
+    from . import models_example as example
 
-    code = inspect.getsource(models_example)
+    code = inspect.getsource(example)
     # print(inspect.getsource(models_example))
     # print(os.path.abspath(inspect.getfile(models_example)))
-
     cwd = os.path.abspath(os.getcwd())
     full_path = os.path.join(cwd, "models.py")
+    if not os.path.exists(full_path):
+        with open(full_path, "w") as wf:
+            wf.write(code)
+
+
+def _create_database():
+    from . import database_example as example
+
+    code = inspect.getsource(example)
+    cwd = os.path.abspath(os.getcwd())
+    full_path = os.path.join(cwd, "database.py")
     if not os.path.exists(full_path):
         with open(full_path, "w") as wf:
             wf.write(code)
@@ -37,8 +47,9 @@ def setup():
     """ Install packages: sqlalchemy & alembic """
     utils.install("sqlalchemy<2.0")
     utils.install("alembic")
-    print("Installed sqlalchemy alembic!")
     _create_models()
+    _create_database()
+    print("Installed sqlalchemy alembic!")
 
 
 @database_cli.command("dev")
