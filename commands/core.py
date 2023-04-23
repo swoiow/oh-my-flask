@@ -39,10 +39,3 @@ def init_project():
         _init_gitignore(os.path.join(cwd, ".gitignore"))
 
     print("Done!")
-
-
-@click.command(
-    name="audit"
-)
-def audit():
-    pass

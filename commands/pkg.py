@@ -21,9 +21,10 @@ def _check_dependencies():
 
 
 @cmd("setup")
-def setup():
+@click.argument("ver", required=False, default="0.4.12")
+def setup(ver=None):
     """ Install packages: pipreqs """
-    utils.install("pipreqs==0.4.12")
+    utils.install(f"pipreqs=={ver}")
     print("Installed pipreqs!")
 
 
