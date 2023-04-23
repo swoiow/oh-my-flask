@@ -7,7 +7,7 @@ from flask.cli import AppGroup
 import utils
 
 
-__doc__ = """ + Helper of packages manage. """
+__doc__ = """ + Helper of packages manage. Such as sync/reset. """
 
 pkg_cli = AppGroup("pkg", short_help=__doc__)
 cmd = partial(pkg_cli.command, with_appcontext=False)
@@ -39,9 +39,3 @@ def sync_requirements(path=None):
         {"--force": True, "--mode": "compat", "<path>": path}
     )
     pipreqs.init(args)
-
-
-@cmd("reset")
-def reset_venv():
-    """ Reset venv packages. Remove all the packages, and install with requirements.txt """
-    print("pip uninstall -y -r <(pip freeze)")
