@@ -18,6 +18,20 @@ def _check_dependencies():
         RuntimeError("dependencies not found: pipreqs, please use: pkg setup")
 
 
+def _create_models():
+    from . import models_example
+
+    code = inspect.getsource(models_example)
+    # print(inspect.getsource(models_example))
+    # print(os.path.abspath(inspect.getfile(models_example)))
+
+    cwd = os.path.abspath(os.getcwd())
+    full_path = os.path.join(cwd, "models.py")
+    if not os.path.exists(full_path):
+        with open(full_path, "w") as wf:
+            wf.write(code)
+
+
 @database_cli.command("setup")
 def setup():
     """ Install packages: sqlalchemy & alembic """
@@ -31,15 +45,3 @@ def setup():
 def dev():
     import constants
     print(dir(constants))
-
-
-def _create_models():
-    from . import models_example
-
-    code = inspect.getsource(models_example)
-    # print(inspect.getsource(models_example))
-    # print(os.path.abspath(inspect.getfile(models_example)))
-
-    cwd = os.path.abspath(os.getcwd())
-    with open(os.path.join(cwd, "models.py"), "w") as wf:
-        wf.write(code)
