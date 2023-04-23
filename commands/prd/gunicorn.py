@@ -21,8 +21,10 @@ def _create_gunicorn_conf():
 
     code = inspect.getsource(gunicorn_example)
     cwd = os.path.abspath(os.getcwd())
-    with open(os.path.join(cwd, "gunicorn.conf.py"), "w") as wf:
-        wf.write(code)
+    full_path = os.path.join(cwd, "gunicorn.conf.py")
+    if not os.path.exists(full_path):
+        with open(full_path, "w") as wf:
+            wf.write(code)
 
 
 @cmd("setup")
