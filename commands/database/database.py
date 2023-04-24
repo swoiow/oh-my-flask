@@ -5,11 +5,10 @@ from functools import wraps
 import click
 from flask.cli import AppGroup
 
-
-__doc__ = """ + A simple helper of database manage. PowerBy alembic. """
-
 import utils
 
+
+__doc__ = """ + A simple helper of database manage. PowerBy alembic. """
 
 database_cli = AppGroup("db", short_help=__doc__)
 
@@ -60,17 +59,23 @@ def setup(path):
 
 
 def _setup_alembic(path):
-    """ Create all tables """
     from alembic import command
     from alembic.config import Config
     alembic_cfg = Config("alembic.ini")
     command.init(alembic_cfg, path)
+
+    new_lines = """import models\ntarget_metadata = models.Base.metadata\n\n"""
+    with open(os.path.join(path, "env.py"), "r+") as rw:
+        lines = rw.readlines()
+        rw.seek(0)
+        rw.write("".join([new_lines if l.startswith("target_metadata =") else l for l in lines]))
 
 
 def with_alembic_ctx(func):
     @wraps(func)
     def swrap(*args, **kwargs):
         import omf
+
         from database import engine
         from alembic.config import Config
         alembic_cfg = Config("alembic.ini")
@@ -82,7 +87,6 @@ def with_alembic_ctx(func):
             alembic_cfg.set_main_option("sqlalchemy.url", str(engine.url))
             config_args["sqlalchemy.url"] = str(engine.url)
         alembic_cfg.config_args = config_args
-
         kwargs["_alembic_cfg"] = alembic_cfg
         return func(*args, **kwargs)
 
