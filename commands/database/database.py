@@ -153,3 +153,14 @@ def downgrade(
     from alembic import command
 
     command.downgrade(_alembic_cfg, revision=revision, sql=sql)
+
+
+@database_cli.command("history")
+@with_alembic_ctx
+def history(
+    _alembic_cfg, **kwargs
+):
+    """ Do downgrade action with Revision ID """
+    from alembic import command
+
+    command.history(_alembic_cfg)
