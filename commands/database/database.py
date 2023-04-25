@@ -21,7 +21,7 @@ def _check_dependencies():
 
 
 def _create_models():
-    from . import models_example as example
+    from commands.database.tpl import models_example as example
 
     code = inspect.getsource(example)
     # print(inspect.getsource(models_example))
@@ -34,7 +34,7 @@ def _create_models():
 
 
 def _create_database():
-    from . import database_example as example
+    from commands.database.tpl import database_example as example
 
     code = inspect.getsource(example)
     project_working_dir = os.path.abspath(os.getcwd())
