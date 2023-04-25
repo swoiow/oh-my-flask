@@ -21,7 +21,7 @@ def _check_dependencies():
 
 
 def _create_models():
-    from commands.database.tpl import models_example as example
+    from commands.database.tpl import models as example
 
     code = inspect.getsource(example)
     # print(inspect.getsource(models_example))
@@ -34,7 +34,7 @@ def _create_models():
 
 
 def _create_database():
-    from commands.database.tpl import database_example as example
+    from commands.database.tpl import database as example
 
     code = inspect.getsource(example)
     project_working_dir = os.path.abspath(os.getcwd())
@@ -75,15 +75,15 @@ def with_alembic_ctx(func):
     @wraps(func)
     def swrap(*args, **kwargs):
         import omf
-
-        from database import engine
         from alembic.config import Config
-        alembic_cfg = Config("alembic.ini")
 
+        alembic_cfg = Config("alembic.ini")
         config_args = omf.DATABASES.get("alembic_options", {})
         for k, v in config_args.items():
             alembic_cfg.set_main_option(k, v)
         if "sqlalchemy.url" not in config_args:
+            from database import engine
+
             alembic_cfg.set_main_option("sqlalchemy.url", str(engine.url))
             config_args["sqlalchemy.url"] = str(engine.url)
         alembic_cfg.config_args = config_args
