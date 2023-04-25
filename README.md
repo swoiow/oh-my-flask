@@ -22,11 +22,10 @@ flask
 
 ```bash
 Commands:
-  db      + Helper of database manage.
-  demo    + Set up DEMOs of oh-my-flask(omf).
+  db      + A simple helper of database manage. PowerBy alembic.
+  demo    + Set up DEMOs of omf(oh-my-flask).
   init    - Set up the project tree.
-  pkg     + Helper of packages manage.
-  prd     + Run flask with WSGI HTTP Server.
+  pkg     + Helper of packages manage. Such as sync/reset.
 ```
 
 ## 中间件
